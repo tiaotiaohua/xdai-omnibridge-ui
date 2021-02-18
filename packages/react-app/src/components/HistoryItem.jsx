@@ -123,7 +123,14 @@ export const HistoryItem = ({
         setTxHash(tx.hash);
       } catch (executeError) {
         setLoading(false);
-        logError({ executeError });
+        logError({ executeError, chainId: providerChainId, message });
+        if (executeError && executeError.message) {
+          showError(executeError.message);
+        } else {
+          showError(
+            'Impossible to perform the operation. Reload the application and try again.',
+          );
+        }
       }
     }
   };
