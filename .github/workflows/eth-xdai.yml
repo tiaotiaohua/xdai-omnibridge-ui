@@ -1,4 +1,4 @@
-name: Build and Deploy to production
+name: Build and Deploy ETH-xDai Production
 on:
   push:
     branches:
@@ -6,7 +6,7 @@ on:
 
 jobs:
   deploy:
-    name: Build & Deploy to production
+    name: Build & Deploy ETH-xDai Production
     runs-on: ubuntu-latest
     steps:
       - name: Cancel Previous Runs
@@ -32,11 +32,12 @@ jobs:
         run: yarn react-app:build
         env:
           CI: true
+          #REACT_APP_FOREIGN_RPC_URL: https://mainnet.blockscout.com/
           REACT_APP_INFURA_ID: ${{ secrets.INFURA_ID }}
           REACT_APP_HOME_NETWORK: xdai
           REACT_APP_HOME_RPC_URL: https://rpc.xdaichain.com/
           REACT_APP_ENABLE_REVERSED_BRIDGE: false
-          REACT_APP_DEBUG_LOGS: false
+          REACT_APP_DEBUG_LOGS: true
           REACT_APP_TITLE: OmniBridge - %c
           REACT_APP_DESCRIPTION: 'The OmniBridge multi-token extension for the Arbitrary Message Bridge between Ethereum and the xDai chain is the simplest way to transfer ANY ERC20/ERC677/ERC827 token to the xDai chain.'
           REACT_APP_GAS_PRICE_SUPPLIER_URL: https://gasprice.poa.network/
@@ -48,7 +49,7 @@ jobs:
       - name: Deploy to Firebase
         uses: w9jds/firebase-action@master
         with:
-          args: deploy --only hosting --project production
+          args: deploy --only hosting --project production-eth-xdai
         env:
           CI: true
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
